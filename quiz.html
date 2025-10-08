@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz - Hand Sanitizer Project</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>Quick Knowledge Quiz</header>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="ingredients.html">Ingredients</a>
+  <a href="preparation.html">Preparation</a>
+  <a href="animation.html">Animation</a>
+  <a href="safety.html">Safety</a>
+  <a href="quiz.html">Quiz</a>
+  <a href="about.html">About</a>
+</nav>
+
+<main>
+  <h2>Test Your Knowledge!</h2>
+
+  <div id="quiz">
+    <p><b>1.</b> Which ingredient acts as the disinfectant?</p>
+    <button onclick="checkAnswer(this, true)">Ethanol</button>
+    <button onclick="checkAnswer(this, false)">Glycerol</button>
+
+    <p><b>2.</b> Why is Glycerol added?</p>
+    <button onclick="checkAnswer(this, true)">To prevent dryness</button>
+    <button onclick="checkAnswer(this, false)">To kill bacteria</button>
+
+    <p><b>3.</b> Which of these should be avoided during preparation?</p>
+    <button onclick="checkAnswer(this, true)">Open flames</button>
+    <button onclick="checkAnswer(this, false)">Distilled water</button>
+  </div>
+
+  <h3 id="result"></h3>
+</main>
+
+<script>
+function checkAnswer(button, correct) {
+  if (correct) {
+    button.style.background = "green";
+    document.getElementById("result").textContent = "✅ Correct!";
+  } else {
+    button.style.background = "red";
+    document.getElementById("result").textContent = "❌ Incorrect!";
+  }
+}
+</script>
+
+<footer>© 2025 Hand Sanitizer Project</footer>
+</body>
+</html>
+

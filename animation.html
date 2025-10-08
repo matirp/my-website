@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hand Sanitizer Preparation Animation</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Additional animation-specific styles */
+.scene {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: 20px auto;
+}
+
+/* Main container (big beaker) */
+.beaker {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 180px;
+  border: 5px solid #1976d2;
+  border-top: none;
+  border-radius: 0 0 60px 60px;
+  background: linear-gradient(to top, #bbdefb 0%, #e3f2fd 70%);
+  overflow: hidden;
+  transition: opacity 1s ease;
+}
+
+/* Liquid inside */
+.liquid {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  background: #64b5f6;
+  border-radius: 0 0 60px 60px;
+  transition: height 1s ease;
+}
+
+/* Small pouring beaker */
+.small-beaker {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  width: 100px;
+  height: 80px;
+  border: 4px solid #1565c0;
+  border-radius: 10px;
+  background: #bbdefb;
+  opacity: 0;
+  transition: all 0.8s ease;
+}
+
+/* Pouring stream */
+.pour {
+  position: absolute;
+  width: 6px;
+  height: 0;
+  background: #64b5f6;
+  left: 50%;
+  top: 60px;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  transition: height 1s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+/* Stirring rod */
+.stirrer {
+  position: absolute;
+  width: 10px;
+  height: 100px;
+  background: #8d6e63;
+  border-radius: 5px;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Final sanitizer bottle */
+.bottle {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  width: 90px;
+  height: 180px;
+  background: #64b5f6;
+  border-radius: 20px;
+  border: 4px solid #1976d2;
+  transition: all 1s ease;
+}
+
+.bottle::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 35%;
+  width: 30px;
+  height: 20px;
+  background: #1976d2;
+  border-radius: 5px 5px 0 0;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.message {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #333;
+  min-height: 24px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<h1>Hand Sanitizer Preparation Animation</h1>
+
+<div class="scene">
+  <div class="beaker" id="mainBeaker">
+    <div class="liquid" id="liquid"></div>
+  </div>
+
+  <div class="small-beaker" id="smallBeaker"></div>
+  <div class="pour" id="pour"></div>
+  <div class="stirrer" id="stirrer"></div>
+  <div class="bottle" id="bottle"></div>
+</div>
+
+<div class="message" id="message">Click a button to start!</div>
+
+<div class="controls">
+  <button onclick="pourIngredient(20, 'Adding Aloe Vera Gel...')">Step 1</button>
+  <button onclick="pourIngredient(40, 'Adding Hydrogen Peroxide...')">Step 2</button>
+  <button onclick="pourIngredient(60, 'Adding Distilled Water...')">Step 3</button>
+  <button onclick="pourIngredient(80, 'Adding Glycerol...')">Step 4</button>
+  <button onclick="pourIngredient(100, 'Adding Ethanol (IPA)...')">Step 5</button>
+  <button onclick="stirMixture()">Step 6 - Stir</button>
+  <button onclick="transformToBottle()">Step 7 - Final Product</button>
+</div>
+
+<script>
+const smallBeaker = document.getElementById('smallBeaker');
+const pour = document.getElementById('pour');
+const liquid = document.getElementById('liquid');
+const bottle = document.getElementById('bottle');
+const mainBeaker = document.getElementById('mainBeaker');
+const stirrer = document.getElementById('stirrer');
+const message = document.getElementById('message');
+
+// Pour ingredient function
+function pourIngredient(height, text) {
+  message.textContent = text;
+  smallBeaker.style.opacity = 1;
+
+  setTimeout(() => {
+    smallBeaker.style.transform = 'translateX(-50%) rotate(40deg)';
+    pour.style.opacity = 1;
+    pour.style.height = '120px';
+
+    setTimeout(() => {
+      pour.style.height = '0';
+      pour.style.opacity = 0;
+      liquid.style.height = height + '%';
+      smallBeaker.style.transform = 'translateX(-50%) rotate(0deg)';
+
+      setTimeout(() => {
+        smallBeaker.style.opacity = 0;
+        message.textContent = "Ingredient added.";
+      }, 600);
+    }, 1500);
+  }, 300);
+}
+
+// Stir mixture function
+function stirMixture() {
+  message.textContent = "Stirring the mixture...";
+  stirrer.style.opacity = 1;
+
+  let angle = 0;
+  let rotations = 0;
+
+  const interval = setInterval(() => {
+    angle += 20;
+    stirrer.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+    rotations++;
+
+    if (rotations > 25) {
+      clearInterval(interval);
+      stirrer.style.opacity = 0;
+      message.textContent = "Mixture stirred completely!";
+    }
+  }, 100);
+}
+
+// Transform beaker to bottle
+function transformToBottle() {
+  message.textContent = "Final transformation...";
+  mainBeaker.style.opacity = 0;
+  liquid.style.height = 0;
+
+  setTimeout(() => {
+    bottle.style.transform = 'translateX(-50%) scale(1.5)';
+    message.textContent = "✨ Hand Sanitizer Ready! ✨";
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
